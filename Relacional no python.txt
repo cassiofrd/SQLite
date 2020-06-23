@@ -1,0 +1,503 @@
+#vamos fazer as tabelas do modelo relacional
+import sqlite3
+#vamso colocar em uma base de dados
+conn = sqlite3.connect('dados.db')
+#para criar uma tabela na base de dados temos que definir um cursor e um execute
+cursor = conn.cursor()
+#tabela vendedores
+cursor.execute("""
+CREATE TABLE Vendedores (
+        IDVendedor INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        Nome VARCHAR(50)
+);
+""")
+
+#tabela produtos
+cursor.execute("""
+CREATE TABLE Produtos (
+        IDProduto INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        Produto VARCHAR(100),
+        Preco NUMERIC(10,2)
+);
+""")
+
+#tabela clientes
+cursor.execute("""
+CREATE TABLE Clientes (
+        IDCliente INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        Cliente VARCHAR(50),
+        Estado VARCHAR(2),
+        Sexo CHAR(1),
+        Status VARCHAR(50)
+);
+""")
+
+#tabela vendas ATENÇÃO: DEVO COLOCAR TODAS AS FOREIGN KEY POR ÚLTIMO, SE NÃO NÃO FUNCIONA
+cursor.execute("""
+CREATE TABLE Vendas (
+	IDVenda INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	Date DATE,
+	Total NUMERIC(10,2),
+	IDVendedor INTEGER,
+	IDCliente INTEGER,
+	FOREIGN KEY(IDVendedor) REFERENCES Vendedores(IDVendedor),
+	FOREIGN KEY(IDCliente) REFERENCES Clientes(IDCliente)
+);
+""")
+
+#tabela itens_vendas, IMPORTANTE: A PRIMARY KEY COMPOSTA DEVE VIR SEMPRE DEPOIS DAS VARIÁVEIS QUE A COMPONHEM TEREM SIDO CRIADAS DENTRO DA TABELA
+cursor.execute("""
+CREATE TABLE ItensVenda (
+	Quantidade INTEGER,
+	ValorUnitario DECIMAL(10,2),
+	ValorTotal DECIMAL(10,2),
+	Desconto DECIMAL(10,2),
+	IDProduto INTEGER,
+	IDVenda INTEGER,
+	PRIMARY KEY (IDProduto, IDVenda),
+	FOREIGN KEY(IDProduto) REFERENCES Produtos(IDProduto),
+	FOREIGN KEY(IDVenda) REFERENCES Vendas(IDVenda)
+);
+""")
+
+#para salvar no banco de dados é sempre necessário colocar o comando a seguir
+conn.commit()
+#agora vamos fechar o banco de dados
+conn.close()
+
+##################################################################################
+###################################PAREI AQUI CAMBADA#############################
+##################################################################################
+
+# 03_create_data_sql.py
+import sqlite3
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+#tenho que trocar as aspas por """ e ver se funciona
+# inserindo dados na tabela
+cursor.execute("""INSERT INTO Clientes (cliente, estado, sexo, status) VALUES('Adelina Buenaventura', 'RJ', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Adelino Gago', 'RJ', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Adélio Lisboa', 'SE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Adérito Bahía', 'MA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Adolfo Patrício', 'PE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Adriana Guedelha', 'RO', 'F', 'Platinum')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Aida Dorneles', 'RN', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alarico Quinterno', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alberto Cezimbra', 'AM', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alberto Monsanto', 'RN', 'M', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Albino Canela', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alceste Varanda', 'RR', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alcides Carvalhais', 'RO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Aldo Martins', 'GO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alexandra Tabares', 'MG', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alfredo Cotrim', 'SC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Almeno Figueira', 'SC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Alvito Peralta', 'AM', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Amadeu Martinho', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Amélia Estévez', 'PE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ana Homem', 'RN', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ana Peseiro', 'PA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Anacleto Garrau', 'TO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Anacleto Guterres', 'PI', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Andreia Carvalhal', 'SP', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Aníbal Bastos', 'CE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Anita Beserra', 'PE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Anna Beça', 'AP', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Anna Carvajal', 'RS', 'F', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Anselmo Dinis', 'PA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Antão Corte-Real', 'ES', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Antero Milheiro', 'AP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Antónia Canhão', 'SC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Antônio Leiria', 'AL', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('António Lousado', 'RS', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Antônio Sobral', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Apuã Ourique', 'AL', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Arachane Matos', 'MA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Arcidres Murici', 'TO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Armindo Castilhos', 'RR', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Armindo Moreira', 'ES', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Artur Macedo', 'SE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Artur Peña', 'RJ', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Aurélio Barrios', 'PI', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bárbara Magalhães', 'MG', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bartolomeu Vila-Chã', 'TO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Basilio Soares', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Belmira Colaço', 'RJ', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Belmiro Marroquim', 'SC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bento Quintão', 'SP', 'M', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Berengária Iglesias', 'BA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bernardete Águeda', 'TO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bernardete Querino', 'PI', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bernardete Tavera', 'ES', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bráulio Junquera', 'PB', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Brenda Serralheiro', 'PA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Brígida Gusmão', 'DF', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Brites Morales', 'SC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bruno Perdigão', 'MS', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Bukake Núñez', 'SC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Caím Queiroga', 'PA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Calisto Britto', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cândida Silvestre', 'MG', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cândido Sousa do Prado', 'PR', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Capitolina Ruela', 'PI', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Capitolina Valadares', 'GO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Carla Briones', 'AC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Carlos Murici', 'MG', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Carmem Reino', 'CE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Carminda Alcaide', 'RO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Carminda Dias', 'AM', 'F', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cássia Guerra', 'MG', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cássia Queiroz', 'AM', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cássio Bettencourt', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Catarina Bairros', 'PA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Catarina Montero', 'PI', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cauê Cotrim', 'PE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cauê Parahyba', 'PA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cecília Carlos', 'AP', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Celestino Pereira', 'RS', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Célia Meireles', 'CE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Celina Vale', 'AL', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cesário Raminhos', 'RR', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cid Pardo', 'AL', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cidália Miera', 'SE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cidália Ornelas', 'RS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cláudio Cotegipe', 'MT', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cláudio Jorge', 'TO', 'M', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cláudio Lopes', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Clotilde Carvalhoso', 'BA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Clóvis Pamplona', 'PB', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Constança Alcaide', 'GO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Constantino Pedroso', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Corina Dâmaso', 'CE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cosme Ipanema', 'PI', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cosme Lira', 'PR', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cosme Zambujal', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Crispim Cordero', 'SC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Crispim Macena', 'AP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Cristiana Campello', 'RN', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Custódio Gonçalves', 'DF', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Custódio Rolim', 'ES', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('David Brás', 'RJ', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('David Carvalhais', 'RJ', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Davide Alcántara', 'MA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Davide Fraga', 'SC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Deise Farias', 'AM', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Deise Laureano', 'PI', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Deise Meneses', 'DF', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Délia Chousa', 'PB', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Délio Paranhos', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Deolinda Castelbranco', 'RO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Deolinda Castella', 'RJ', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Derli Lozada', 'RJ', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Diana Baptista', 'AM', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dinarte Mangueira', 'DF', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dinarte Marino', 'MS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dinarte Tabalipa', 'RS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dinarte Tabares', 'RR', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Diodete Carijó', 'PB', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Diodete Queiroga', 'GO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Diogo Simón', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dionísio Saltão', 'PR', 'M', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dora Galvão', 'MT', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dora Rocha', 'DF', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Doroteia Quintanilla', 'RR', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Duarte Sampaio', 'RJ', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dulce Prado', 'AC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Dulce Tomé', 'CE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eduarda Borba', 'MA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eduarda Madureira', 'DF', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eládio Froes', 'AM', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eloi Meneses', 'CE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eloi Pereira', 'PA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eloi Vasques', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Elsa Alencar', 'RJ', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Elsa Barreto', 'MA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Elvira Açores', 'SC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ema Nieves', 'GO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Emiliana Villalobos', 'RO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Epaminondas Sousa de Arronches', 'MS', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ermelinda Casquero', 'AM', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Estefânia Cyrne', 'RO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Estela Mattos', 'PI', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ester Castanho', 'AC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ester Dantas', 'SP', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Estêvão Simão', 'DF', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eusébio Bairros', 'SP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eusébio Mata', 'PI', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eusébio Pacheco', 'TO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Eusébio Salomão', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Evaristo Bahía', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Fabiano Bethancout', 'PB', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Fabrício Varella', 'AM', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Fabrício Vidal', 'AL', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Faustino Maranhão', 'PI', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Fausto Miranda', 'AP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Fausto Montenegro', 'SE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Feliciana Silvera', 'AC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Feliciano Franca', 'PA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Felicidade Aldea', 'SE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Filipa Mattozo', 'MA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Filipe Lamego', 'AL', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Firmina Carrasco', 'TO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Firmino Galván', 'MA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Firmino Meireles', 'AM', 'M', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Firmino Puentes', 'PB', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Flamínia Miera', 'MT', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Flávia Camacho', 'BA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Flávia Campos', 'RR', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Flor Ginjeira', 'ES', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Flor Vilanova', 'CE', 'M', 'Platinum')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Florêncio Lameiras', 'PR', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Florêncio Vieira', 'PA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Floriano Orriça', 'AP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Floriano Siebra', 'MS', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Florinda Assunção', 'PI', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Francisca Ramallo', 'RJ', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Francisca Teodoro', 'SE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Francisco Medina', 'PA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Galindo Bettencourt', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Garibaldo Oleiro', 'RO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gaudêncio Ipiranga', 'RR', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Germana Conde', 'AM', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gertrudes Hidalgo', 'PA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gertrudes Infante', 'RS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gertrudes Rabello', 'SC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gilberto Moutinho', 'PB', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gilda Parente', 'RR', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ginéculo Luz', 'RJ', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gisela Bahia', 'SP', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gisela Candeias', 'SC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gláuber Guedella', 'RS', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gláucia Canela', 'RO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Godinho ou Godim Fogaça', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Godinho ou Godim Jácome', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Godofredo Mascareñas', 'SP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Godofredo Quiroga', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gomes Hurtado', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gonçalo Figueiró', 'PI', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Graça Tabosa', 'RN', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Greice Lameirinhas', 'PI', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Guadalupe Rodrigues', 'SC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Guadalupe Telinhos', 'AL', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Guaraci Imbassaí', 'PB', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gueda Cartaxo', 'MS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Gueda Laureano', 'BA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Guida Beiriz', 'AP', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Guilhermina Hurtado', 'PA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Guilhermina Vilaça', 'BA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Hedviges Lessa', 'MG', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Hélder Brión', 'PB', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Hélder Valentín', 'AL', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Heloísa Cayubi', 'MS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Herberto Castro', 'MA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Herberto Pari', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Herculano Viveiros', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Hermano Diegues', 'ES', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Hermígio Cezar', 'SP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Hermígio Villaverde', 'MA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Honorina Camarinho', 'PR', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Honorina Villaverde', 'PE', 'F', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Honório Mafra', 'RR', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Horácio Pires', 'MG', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Hugo Covilhã', 'CE', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Humberto Almeida', 'AC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Humberto Lemes', 'BA', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Humberto Morgado', 'SP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Humberto Vergueiro', 'MG', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ibijara Botelho', 'RR', 'F', 'Platinum')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ifigénia Lustosa', 'PE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ifigénia Pires', 'PA', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ilduara Chávez', 'MT', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Inês Neres', 'CE', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Ingrit Mayor', 'SC', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Iolanda Rabello', 'PB', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Iracema Rodríguez', 'BA', 'F', 'Gold')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Iraci Alcoforado', 'MS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Irani Jaguariúna', 'AM', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Irene Meireles', 'MS', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Irene Villanueva', 'AC', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Isabel Meirelles', 'RO', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Israel Canela', 'RN', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Iuri Guterres', 'GO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Jacinto Dorneles', 'MG', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Jandaíra Albuquerque', 'SP', 'F', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Joana Ataí', 'GO', 'F', 'Platinum')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Joaquim Hurtado', 'AP', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Joaquim Mieiro', 'TO', 'M', 'Silver')""")
+cursor.execute("""INSERT INTO Clientes(cliente, estado, sexo, status) VALUES('Joaquina Vasconcelos', 'SC', 'F', 'Silver')""")
+
+#vamos salvar
+conn.commit()
+#vamos fechar o banco de dados
+conn.close()
+
+##################################################################################
+#####################################PAREI AQUI###################################
+##################################################################################
+
+#agora vamos inserir novos dados em uma bases com base em uma lista
+#é importante aprender isso porque dependendo da fonte dos dados, eles podem estar
+#em formato de lista
+import sqlite3
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+# criando uma lista de dados
+lista = [('Cássio Freitas Daldegan', 'MG', 'M', 'Silver'),
+	('Fubá', 'MG', 'M', 'Silver'),
+	('Roque', 'MG', 'M', 'Silver')]
+
+# inserindo dados na tabela
+cursor.executemany("""
+INSERT INTO Clientes (cliente, estado, sexo, status)
+VALUES (?,?,?,?)
+""", lista)
+
+conn.commit()
+conn.close()
+
+##################################################################################
+###################################PAREI AQUI#####################################
+##################################################################################
+
+import sqlite3
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+#agora vamos visualizar os dados da tabela clientes, que consiste nas próximas
+#cinco linhas
+cursor.execute("""
+SELECT * FROM Clientes;
+""")
+for linha in cursor.fetchall():
+    print(linha)
+
+conn.commit()
+conn.close()
+
+##################################################################################
+############AGORA VAMOS FAZER ALGUMAS ALTERAÇÕES NOS DADOS JÁ INSERIDOS###########
+##################################################################################
+
+# 07_update_data.py
+import sqlite3
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+#alterando os dados da tabela
+#vou alterar os meus dados e colocar os do Spock
+cursor.execute("""
+UPDATE Clientes 
+SET cliente = 'Spock', estado = 'Vulkano', sexo = 'M', status = 'Silver' 
+WHERE IDCliente = 251
+""")
+
+conn.commit()
+conn.close()
+
+##################################################################################
+########################AGORA VAMOS DELETAR ALGUNS DADOS##########################
+##################################################################################
+
+# 08_delete_data.py
+import sqlite3
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+id_cliente = 8
+
+# excluindo um registro da tabela
+cursor.execute("""
+DELETE FROM Clientes
+WHERE IDCliente = 251
+""")
+
+conn.commit()
+conn.close()
+
+##################################################################################
+#############AGORA VAMOS INSERIR UMA NOVA COLUNA NA TABELA CLIENTES###############
+######################O SQLite NÃO PERMITE DELETAR COLUNAS########################
+##################################################################################
+
+# 09_alter_table.py
+import sqlite3
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+#adicionando uma nova coluna na tabela clientes
+cursor.execute("""
+ALTER TABLE Clientes
+ADD COLUMN Cidade VARCHAR(50);
+""")
+cursor.execute("""
+SELECT IDCliente, cliente, estado, sexo, status FROM Clientes
+""")
+for linha in cursor.fetchall():
+    print(linha)
+
+conn.commit()
+conn.close()
+
+##################################################################################
+################AGORA VAMOS SELECIONAR AS COLUNAS E COLOCAR EM ÓRDEM##############
+##################################################################################
+
+import sqlite3
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+# obtendo informações da tabela
+cursor.execute("""
+SELECT cliente, status FROM Clientes WHERE sexo='F' ORDER BY cliente
+""")
+for linha in cursor.fetchall():
+    print(linha)
+
+##################################################################################
+#############VAMOS SALVAR OS DADOS EM FORMATO DE UM SCRIPT SQL####################
+########DESSA MANEIRA É POSSÍVEL REFAZER A TABELA EM OUTROS PROGRAMAS SQL#########
+##################################################################################
+
+#esse comando é super importante pois ele salva todos os dados que estão em dados.db em um arquivo sql
+# 11_backup.py
+import sqlite3
+
+import io
+conn = sqlite3.connect('dados.db')
+
+with io.open('dados.sql', 'w') as f:
+    for linha in conn.iterdump():
+        f.write('%s\n' % linha)
+
+conn.close()
+
+##################################################################################
+#################LENDO UM ARQUIVO SQL E CRIANDO AS TABELAS########################
+############COM BASE NO ARQUIVO QUE EU EXPORTEI NO PASSO ANTERIOR#################
+##################################################################################
+
+#agora vamos criar uma nova base de dados utilizando os dados exportados em formato sql, ou seja, vamos importar os dados
+# 12_read_sql.py
+import sqlite3
+import io
+
+conn = sqlite3.connect('clientes_recuperado.db')
+cursor = conn.cursor()
+
+f = io.open('clientes_dump.sql', 'r')
+sql = f.read()
+cursor.executescript(sql)
+
+print('Banco de dados recuperado com sucesso.')
+print('Salvo como clientes_recuperado.db')
+
+conn.close()
